@@ -5,23 +5,15 @@ import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
 
+import rootReducer from './reducers';
 
-const initialState = {
-    todos: [
-        { value: 'Make Dinner', completed: false },
-        { value: 'Clean Kitchen', completed: false }
-    ]
-};
 
-function reducer(state = initialState) {
-    console.log(state);
-    return state;
-}
+const store = createStore(rootReducer);
 
-const store = createStore(reducer);
-
+const rootElement = document.getElementById('root');
 ReactDOM.render(
     <Provider store={store}>
         <App />
     </Provider>,
-document.getElementById('root'));
+rootElement
+);

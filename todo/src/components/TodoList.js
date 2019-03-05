@@ -1,9 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { addTodo } from '../actions';
+
 class TodoList extends React.Component {
     state= {
         newTodo: ''
+    }
+
+    handleChange = e => {
+        this.setState({ newTodo: e.target.value })
+    }
+
+    addTodo = e => {
+        e.preventDefault();
+        this.props.addTodo(this.state.newTodo);
+        this.setState({ newTodo: ''});
     }
 
     render() {
@@ -19,8 +31,9 @@ class TodoList extends React.Component {
                         </h4>
                     ))}
                 </div>
-                <input type="text" placeholder="Add new todo" />
-                <button>Add Todo</button>
+                <input type="text" name="newTodo" value={this.state.newTodo} 
+                    onChange={this.handleChange} placeholder="Add new todo" />
+                <button onClick={this.addTodo}>Add Todo</button>
             </>
         )
     }
@@ -30,4 +43,4 @@ const mapStateToProps = state => ({
     todoList: state.todos
 })
 
-export default connect(mapStateToProps)(TodoList)
+export default connect(mapStateToProps, { addTodo })(TodoList)
