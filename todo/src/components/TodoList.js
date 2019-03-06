@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { addTodo } from '../actions';
+import { addTodo, toggleComplete } from '../actions';
 
 class TodoList extends React.Component {
     state= {
@@ -18,6 +18,10 @@ class TodoList extends React.Component {
         this.setState({ newTodo: ''});
     }
 
+    toggleComplete = id => {
+        this.props.toggleComplete(id);
+    }
+
     render() {
         return (
             <>
@@ -26,7 +30,8 @@ class TodoList extends React.Component {
                 </header>
                 <div>
                     {this.props.todoList.map(todo => (
-                        <h4 key={todo.value}>
+                        <h4 className="todo-done" key={todo.id} onClick={() => this.toggleComplete(todo.id)}
+                            style={{ textDecoration: todo.completed ? 'line-through' : 'none'}}>
                             {todo.value}
                         </h4>
                     ))}
@@ -43,4 +48,4 @@ const mapStateToProps = state => ({
     todoList: state.todos
 })
 
-export default connect(mapStateToProps, { addTodo })(TodoList)
+export default connect(mapStateToProps, { addTodo, toggleComplete })(TodoList)
